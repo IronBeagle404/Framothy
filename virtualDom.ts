@@ -20,5 +20,20 @@ export function createElement(
  */
 export function render(vNode: vNode, container: HTMLElement): void {
   const element = document.createElement(vNode.type);
+
+  // Set properties
+  for (const [key, value] of Object.entries(vNode.props)) {
+    element.setAttribute(key, String(value));
+  }
+
+  // Render children
+  vNode.children.forEach((child) => {
+    if (typeof child === "string") {
+      element.appendChild(document.createTextNode(child));
+    } else {
+      render(child, element);
+    }
+  });
+
   container.appendChild(element);
 }
