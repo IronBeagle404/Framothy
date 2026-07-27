@@ -12,15 +12,10 @@ class StateManager<T> {
         return this.state;
     }
 
-    // Updates the state with new values
-    setState(newState: Partial<T>): void {
+    // Updates the state with a new value
+    setState(newValue: T): void {
         const previousState = this.state;
-
-        this.state = {
-            ...this.state,
-            ...newState
-        } as T;
-
+        this.state = newValue;
         this.notify(this.state, previousState);
     }
 
@@ -42,4 +37,3 @@ class StateManager<T> {
 }
 
 export default new StateManager({});
-export { StateManager };
