@@ -2,7 +2,7 @@ class StateManager<T> {
     private state: T;
     private listeners: Set<(newState: T, previousState: T) => void>;
 
-    constructor(initialState: T = {} as T) {
+    constructor(initialState: T) {
         this.state = initialState;
         this.listeners = new Set<(newState: T, previousState: T) => void>();
     }
@@ -41,7 +41,5 @@ class StateManager<T> {
     }
 }
 
-const State = new StateManager<Record<string, unknown>>({});
-
-export default State;
+export default new StateManager({});
 export { StateManager };
