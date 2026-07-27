@@ -7,19 +7,25 @@ class StateManager<T> {
         this.listeners = new Set<(newState: T, previousState: T) => void>();
     }
 
-    // Returns the current state
+    /**
+     * Returns the current state value.
+     */
     getState(): T {
         return this.state;
     }
 
-    // Updates the state with a new value
+    /**
+     * Replaces the current state and notifies listeners.
+     */
     setState(newValue: T): void {
         const previousState = this.state;
         this.state = newValue;
         this.notify(this.state, previousState);
     }
 
-    // Subscribes a listener to state changes
+    /**
+     * Subscribes a callback to state updates.
+     */
     subscribe(callback: (newState: T, previousState: T) => void): () => void {
         this.listeners.add(callback);
 
@@ -28,7 +34,9 @@ class StateManager<T> {
         };
     }
 
-    // Notifies all listeners when the state changes
+    /**
+     * Notifies all registered listeners.
+     */
     notify(newState: T, previousState: T): void {
         this.listeners.forEach((listener) => {
             listener(newState, previousState);
