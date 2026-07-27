@@ -1,13 +1,10 @@
-type StateValue = Record<string, unknown>;
-type StateListener = (newState: StateValue, previousState: StateValue) => void;
-
-class StateManager<T extends StateValue = StateValue> {
+class StateManager<T> {
     private state: T;
-    private listeners: Set<StateListener>;
+    private listeners: Set<(newState: T, previousState: T) => void>;
 
     constructor(initialState: T = {} as T) {
         this.state = initialState;
-        this.listeners = new Set<StateListener>();
+        this.listeners = new Set<(newState: T, previousState: T) => void>();
     }
 
     // Returns the current state
@@ -28,7 +25,7 @@ class StateManager<T extends StateValue = StateValue> {
     }
 
     // Subscribes a listener to state changes
-    subscribe(callback: StateListener): () => void {
+    subscribe(callback: (newState: T, previousState: T) => void): () => void {
         this.listeners.add(callback);
 
         return () => {
@@ -44,7 +41,7 @@ class StateManager<T extends StateValue = StateValue> {
     }
 }
 
-const State = new StateManager<StateValue>({});
+const State = new StateManager<Record<string, unknown>>({});
 
 export default State;
 export { StateManager };
