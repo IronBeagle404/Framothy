@@ -36,4 +36,4 @@ class StateManager<T> {
     }
 }
 
-export default new StateManager({});
+export default StateManager;
