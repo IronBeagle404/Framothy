@@ -1,4 +1,4 @@
-type vNode = {
+export type vNode = {
   type: string;
   props: Record<string, any>;
   children: (vNode | string)[];
