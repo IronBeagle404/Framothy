@@ -1,0 +1,1 @@
+You will also have to implement a way to handle the events triggered by the user, like: scrolling, clicking, certain keybindings, etc.... Note that this new way of handling events must be different from the addEventListener() method that already exists.

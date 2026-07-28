@@ -1,67 +1,45 @@
-interface CustomEvent {
-  type: string;
-  target: EventNode;
-  [key: string]: unknown;
+type EventHandler = (...args: unknown[]) => void;
+
+export interface EventEmitter {
+  events: Map<string, EventHandler[]>;
 }
 
-type EventHandler = (event: CustomEvent) => void;
-
-export interface EventNode {
-  listeners: Map<string, EventHandler[]>;
-  parent: EventNode | null;
-  children: EventNode[];
-}
-
-export function createEventNode(parent: EventNode | null = null): EventNode {
+export function createEmitter(): EventEmitter {
   return {
-    listeners: new Map(),
-    parent,
-    children: [],
+    events: new Map(),
   };
 }
 
-export function addEventListener(
-  node: EventNode,
-  eventType: string,
+export function on(
+  emitter: EventEmitter,
+  event: string,
   handler: EventHandler
 ): void {
-  if (!node.listeners.has(eventType)) {
-    node.listeners.set(eventType, []);
+  if (!emitter.events.has(event)) {
+    emitter.events.set(event, []);
   }
-  node.listeners.get(eventType)!.push(handler);
+  emitter.events.get(event)!.push(handler);
 }
 
-export function removeEventListener(
-  node: EventNode,
-  eventType: string,
+export function off(
+  emitter: EventEmitter,
+  event: string,
   handler: EventHandler
 ): void {
-  const handlers = node.listeners.get(eventType);
+  const handlers = emitter.events.get(event);
   if (!handlers) return;
   const index = handlers.indexOf(handler);
   if (index !== -1) handlers.splice(index, 1);
 }
 
-export function dispatchEvent(
-  node: EventNode,
-  eventType: string,
-  eventData: Record<string, unknown> = {}
+export function emit(
+  emitter: EventEmitter,
+  event: string,
+  ...args: unknown[]
 ): void {
-  const event = { type: eventType, target: node, ...eventData };
-
-  let current: EventNode | null = node;
-  while (current) {
-    const handlers = current.listeners.get(eventType);
-    if (handlers) {
-      for (const handler of handlers) {
-        handler(event);
-      }
-    }
-    current = current.parent;
+  const handlers = emitter.events.get(event);
+  if (!handlers) return;
+  for (const handler of handlers) {
+    handler(...args);
   }
-}
-
-export function addChild(parent: EventNode, child: EventNode): void {
-  child.parent = parent;
-  parent.children.push(child);
 }
