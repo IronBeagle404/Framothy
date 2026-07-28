@@ -1,4 +1,10 @@
-type EventHandler = (event: Event) => void;
+interface CustomEvent {
+  type: string;
+  target: EventNode;
+  [key: string]: unknown;
+}
+
+type EventHandler = (event: CustomEvent) => void;
 
 export interface EventNode {
   listeners: Map<string, EventHandler[]>;
