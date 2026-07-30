@@ -2,9 +2,23 @@
   "name": "framothy",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -13,7 +27,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "devDependencies": {
     "tsup": "^8.5.1",
     "typescript": "^6.0.3"
