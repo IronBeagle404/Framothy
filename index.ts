@@ -6,3 +6,6 @@ export { createElement, render } from "./DOM/virtualDom";
 
 // Types
 export type { vNode } from "./DOM/virtualDom";
+
+// Routing
+export { Router } from "./routing/routing";
