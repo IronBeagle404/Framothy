@@ -1,27 +1,15 @@
 import { render, vNode } from "../DOM/virtualDom";
 
-export class Router<T> {
-  private routes: Record<string, (state: T) => vNode>;
-  private root: HTMLElement;
-  private getState: () => T;
+export function Router(routes: Record<string, () => vNode>): void {
+  const path = window.location.pathname;
+  const component = routes[path];
 
-  constructor(
-    routes: Record<string, (state: T) => vNode>,
-    getState: () => T
-  ) {
-    this.routes = routes;
-    this.root = document.getElementById("app")!;
-    this.getState = getState;
+  if (!component) {
+    return;
   }
 
-  updateView(): void {
-    const component = this.routes[window.location.pathname];
+  const root = document.getElementById("app")!;
 
-    if (!component) {
-      return;
-    }
-
-    this.root.innerHTML = "";
-    render(component(this.getState()), this.root);
-  }
+  root.innerHTML = "";
+  render(component(), root);
 }
