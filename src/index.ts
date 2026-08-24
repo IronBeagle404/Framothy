@@ -8,4 +8,4 @@ export { createElement, render } from "./DOM/virtualDom";
 export type { vNode } from "./DOM/virtualDom";
 
 // Routing
-export { Router } from "./routing/routing";
+export { route } from "./routing/routing";
