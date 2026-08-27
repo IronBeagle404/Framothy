@@ -8,9 +8,9 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "types": ["node"],
     "outDir": "dist",
-    "rootDir": "src",
     "ignoreDeprecations": "6.0"
   },
-  "include": ["src"]
+  "include": ["src", "bin"]
 }
