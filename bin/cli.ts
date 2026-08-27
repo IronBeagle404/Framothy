@@ -41,9 +41,9 @@ function getTemplates(projectName: string) {
 const state = new StateManager({ count: 0 });
 
 function App() {
-  return createElement("div", null,
-    createElement("h1", null, "${projectName}"),
-    createElement("p", null, "Count: " + state.getState().count),
+  return createElement("div", {},
+    createElement("h1", {}, "${projectName}"),
+    createElement("p", {}, "Count: " + state.getState().count),
     createElement("button", { onclick: () => state.setState({ count: state.getState().count + 1 }) }, "+1")
   );
 }
