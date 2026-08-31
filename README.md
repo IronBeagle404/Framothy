@@ -18,13 +18,17 @@ const heading = createElement("h1", { class: "title" }, "Hello from Framothy");
 
 This creates a virtual node that describes an `h1` element.
 
-## Rendering
+## event handling
 
 ```ts
-render(heading, container);
+const button = createElement(
+  "button",
+  { onclick: () => console.log("Button clicked!") },
+  "MyButton",
+);
 ```
 
-The `render` function converts the virtual node into a real DOM element and appends it to the provided container.
+this creates a button with an event handling the click
 
 ## Complete Usage Example
 
@@ -37,6 +41,7 @@ const App = createElement(
   { id: "app-root", class: "container" },
   createElement("h1", { class: "title" }, "Framothy App"),
   createElement("p", {}, "A simple virtual DOM example."),
+  createElement("button", { onclick: () => console.log("Button clicked!") }, "MyButton")
   createElement(
     "ul",
     { class: "list" },
@@ -45,6 +50,9 @@ const App = createElement(
     ),
   ),
 );
+
+
+
 
 // Mount the UI to the page.
 const container = document.getElementById("root");
@@ -101,7 +109,9 @@ Renders a virtual DOM node inside an existing DOM container.
 render(vNode: vNode, container: HTMLElement): void;
 ```
 
-During rendering, Framothy:
+The `render` function converts the virtual node into a real DOM element and appends it to the provided container.
+
+During rendering, `render` calls the function `mount` who:
 
 - creates a DOM element from the node's `type`;
 - applies each entry in `props` as an HTML attribute; and
