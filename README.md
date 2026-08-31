@@ -18,6 +18,18 @@ const heading = createElement("h1", { class: "title" }, "Hello from Framothy");
 
 This creates a virtual node that describes an `h1` element.
 
+## event handling
+
+```ts
+const button = createElement(
+  "button",
+  { onclick: () => console.log("Button clicked!") },
+  "MyButton",
+);
+```
+
+this creates a button with an event handling the click
+
 ## Complete Usage Example
 
 ```ts
@@ -29,6 +41,7 @@ const App = createElement(
   { id: "app-root", class: "container" },
   createElement("h1", { class: "title" }, "Framothy App"),
   createElement("p", {}, "A simple virtual DOM example."),
+  createElement("button", { onclick: () => console.log("Button clicked!") }, "MyButton")
   createElement(
     "ul",
     { class: "list" },
@@ -37,6 +50,9 @@ const App = createElement(
     ),
   ),
 );
+
+
+
 
 // Mount the UI to the page.
 const container = document.getElementById("root");
