@@ -2,6 +2,8 @@
 
 Framothy is a small TypeScript framework for creating and rendering virtual DOM elements.
 
+---
+
 ## Installation
 
 Install the package from npm:
@@ -29,6 +31,8 @@ const button = createElement(
 ```
 
 this creates a button with an event handling the click
+
+---
 
 ## Complete Usage Example
 
@@ -66,6 +70,8 @@ The page must contain a mount element:
 ```html
 <div id="root"></div>
 ```
+
+---
 
 ## Virtual DOM
 
@@ -116,3 +122,79 @@ During rendering, `render` calls the function `mount` who:
 - creates a DOM element from the node's `type`;
 - applies each entry in `props` as an HTML attribute; and
 - recursively renders child nodes or appends text children.
+
+---
+
+## State Management
+
+### `StateManager<T>`
+
+Manage application state and automatically notify listeners when state changes.
+
+```ts
+const state = new StateManager({ count: 0 });
+```
+
+#### `getState()`
+
+Returns the current value of the state.
+
+```ts
+const store = new StateManager({ count: 0 });
+console.log(store.getState()); // { count: 0 }
+```
+
+#### `setState(newValue)`
+
+Replaces the current state.
+
+```ts
+state.setState({ count: 1 });
+```
+
+#### `subscribe(callback)`
+
+Registers a callback to run whenever state changes. Returns a function to unsubscribe.
+
+```ts
+state.subscribe(() => render(App(), document.getElementById("app")!));
+```
+
+The callback receives `(newState, previousState)` and triggers the function whenever state updates.
+
+#### `notify(newState, previousState)`
+
+Manually triggers all subscribed listeners with new and previous state values.
+
+```ts
+const counter = new StateManager({ count: 0 });
+counter.notify({ count: 2 }, { count: 1 });
+```
+
+### Example
+
+```ts
+import { createElement, render, StateManager } from "framothy";
+
+const state = new StateManager({ count: 0 });
+
+function App() {
+  return createElement(
+    "div",
+    {},
+    createElement("h1", {}, "test-project"),
+    createElement("p", {}, "Count: " + state.getState().count),
+    createElement(
+      "button",
+      { onclick: () => state.setState({ count: state.getState().count + 1 }) },
+      "+1",
+    ),
+  );
+}
+
+state.subscribe(() => render(App(), document.getElementById("app")!));
+
+render(App(), document.getElementById("app")!);
+```
+
+---
