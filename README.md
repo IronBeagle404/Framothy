@@ -119,14 +119,10 @@ During rendering, Framothy:
 
 ### `StateManager<T>`
 
+Manage application state and automatically notify listeners when state changes.
+
 ```ts
-class StateManager<T> {
-  constructor(initialState: T);
-  getState(): T;
-  setState(newValue: T): void;
-  subscribe(callback: (newState: T, previousState: T) => void): () => void;
-  notify(newState: T, previousState: T): void;
-}
+const state = new StateManager({ count: 0 });
 ```
 
 #### `getState()`
@@ -140,50 +136,55 @@ console.log(store.getState()); // { count: 0 }
 
 #### `setState(newValue)`
 
-Replaces the current state and notifies all listeners.
+Replaces the current state.
 
 ```ts
-const counter = new StateManager({ count: 0 });
-counter.setState({ count: 1 });
+state.setState({ count: 1 });
 ```
 
 #### `subscribe(callback)`
 
-Registers a function to run whenever the state changes.
+Registers a callback to run whenever state changes. Returns a function to unsubscribe.
 
 ```ts
-const counter = new StateManager({ count: 0 });
-
-const unsubscribe = counter.subscribe((newState, previousState) => {
-  console.log("Changed from", previousState, "to", newState);
-});
+state.subscribe(() => render(App(), document.getElementById("app")!));
 ```
+
+The callback receives `(newState, previousState)` and triggers the function whenever state updates.
 
 #### `notify(newState, previousState)`
 
-Calls every subscribed listener with the new state and the previous state.
+Manually triggers all subscribed listeners with new and previous state values.
 
 ```ts
 const counter = new StateManager({ count: 0 });
-
 counter.notify({ count: 2 }, { count: 1 });
 ```
 
 ### Example
 
 ```ts
-import { StateManager } from "framothy";
+import { createElement, render, StateManager } from "framothy";
 
-const counter = new StateManager({ count: 0 });
+const state = new StateManager({ count: 0 });
 
-const unsubscribe = counter.subscribe((newState, previousState) => {
-  console.log(`Count changed from ${previousState.count} to ${newState.count}`);
-});
+function App() {
+  return createElement(
+    "div",
+    {},
+    createElement("h1", {}, "test-project"),
+    createElement("p", {}, "Count: " + state.getState().count),
+    createElement(
+      "button",
+      { onclick: () => state.setState({ count: state.getState().count + 1 }) },
+      "+1",
+    ),
+  );
+}
 
-counter.setState({ count: 1 });
-counter.setState({ count: 2 });
+state.subscribe(() => render(App(), document.getElementById("app")!));
 
-unsubscribe();
+render(App(), document.getElementById("app")!);
 ```
 
 ---
