@@ -95,7 +95,7 @@ render(vNode: vNode, container: HTMLElement): void;
 
 The `render` function converts the virtual node into a real DOM element and appends it to the provided container.
 
-During rendering, `render` calls `mount`:
+During rendering, `render` calls the function `mount` who:
 
 - creates a DOM element from the node's `type`;
 - applies each entry in `props` as an HTML attribute; and
