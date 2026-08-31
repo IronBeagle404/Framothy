@@ -18,14 +18,6 @@ const heading = createElement("h1", { class: "title" }, "Hello from Framothy");
 
 This creates a virtual node that describes an `h1` element.
 
-## Rendering
-
-```ts
-render(heading, container);
-```
-
-The `render` function converts the virtual node into a real DOM element and appends it to the provided container.
-
 ## Complete Usage Example
 
 ```ts
@@ -101,7 +93,9 @@ Renders a virtual DOM node inside an existing DOM container.
 render(vNode: vNode, container: HTMLElement): void;
 ```
 
-During rendering, Framothy:
+The `render` function converts the virtual node into a real DOM element and appends it to the provided container.
+
+During rendering, `render` calls `mount`:
 
 - creates a DOM element from the node's `type`;
 - applies each entry in `props` as an HTML attribute; and
