@@ -126,6 +126,11 @@ async function init() {
   fs.writeFileSync(path.join(dir, "package.json"), templates.packageJson);
   fs.writeFileSync(path.join(dir, "tsconfig.json"), templates.tsconfigJson);
 
+  const publicDir = path.join(dir, "public");
+  fs.mkdirSync(publicDir, { recursive: true });
+  const faviconSource = path.join(__dirname, "..", "assets", "favicon");
+  fs.cpSync(faviconSource, publicDir, { recursive: true });
+
   if (/^(y|yes)$/i.test(initGit.trim()) || initGit.trim() === "") {
     execSync("git init", { cwd: dir, stdio: "ignore" });
     fs.writeFileSync(path.join(dir, ".gitignore"), templates.gitignore);
