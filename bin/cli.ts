@@ -29,6 +29,10 @@ function getTemplates(projectName: string) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${projectName}</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
 </head>
 <body>
   <div id="app"></div>
@@ -121,6 +125,11 @@ async function init() {
   fs.writeFileSync(path.join(dir, "src/main.ts"), templates.mainTs);
   fs.writeFileSync(path.join(dir, "package.json"), templates.packageJson);
   fs.writeFileSync(path.join(dir, "tsconfig.json"), templates.tsconfigJson);
+
+  const publicDir = path.join(dir, "public");
+  fs.mkdirSync(publicDir, { recursive: true });
+  const faviconSource = path.join(__dirname, "..", "assets", "favicon");
+  fs.cpSync(faviconSource, publicDir, { recursive: true });
 
   if (/^(y|yes)$/i.test(initGit.trim()) || initGit.trim() === "") {
     execSync("git init", { cwd: dir, stdio: "ignore" });
