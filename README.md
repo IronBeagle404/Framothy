@@ -1,3 +1,5 @@
+<img src="./assets/logo/framothy.png" alt="framothy-logo" height=300>
+
 # Framothy
 
 Framothy is a small TypeScript framework for creating and rendering virtual DOM elements.
