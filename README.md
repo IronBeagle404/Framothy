@@ -6,6 +6,25 @@ Framothy is a small TypeScript framework for creating and rendering virtual DOM 
 
 ---
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Creating an Element](#creating-an-element)
+- [Event Handling](#event-handling)
+- [Complete Usage Example](#complete-usage-example)
+- [Virtual DOM](#virtual-dom)
+  - [vNode](#vnode)
+  - [createElement](#createelement)
+  - [render](#render)
+- [State Management](#state-management)
+  - [StateManager](#statemanagert)
+  - [subscribe](#subscribe)
+  - [Example](#example)
+- [Routing](#routing)
+  - [route](#route)
+
+---
+
 ## Installation
 
 Install the package from npm:
@@ -200,3 +219,49 @@ render(App(), document.getElementById("app")!);
 ```
 
 ---
+
+## Routing
+
+Framothy has a routing system for single page navigation
+
+### `route`
+
+```ts
+route(routes: Record<string, () => vNode>): void;
+```
+
+The `route` function sets up client-side routing with the following behavior:
+
+- **routes**: An object where each key is a route path and each value is a function that returns the `vNode` for that page
+- Listens for `hashchange` events and re-renders the appropriate component
+- Automatically renders the initial route on load
+- Clears the app container and renders the new component when the route changes
+
+### Routing Usage Example
+
+```ts
+import { createElement, route } from "framothy";
+
+const Home = () =>
+  createElement(
+    "div",
+    {},
+    createElement("h1", {}, "Home"),
+    createElement("a", { href: "#about" }, "Go to About"),
+  );
+
+const About = () =>
+  createElement(
+    "div",
+    {},
+    createElement("h1", {}, "About"),
+    createElement("a", { href: "#home" }, "Back to Home"),
+  );
+
+route({
+  home: Home,
+  about: About,
+});
+```
+
+Navigate between pages using hash links: `#home`, `#about`. The router automatically re-renders when the URL hash changes.
