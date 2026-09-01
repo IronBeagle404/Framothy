@@ -21,7 +21,7 @@ function confirm(question: string): Promise<boolean> {
 }
 
 function getTemplates(projectName: string) {
-  const version = "0.2.0";
+  const version = "0.2.1";
 
   const indexHtml = `<!DOCTYPE html>
 <html lang="en">
